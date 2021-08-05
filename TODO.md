@@ -195,7 +195,17 @@ Creates parser objects:
         ],
         "statementBlock": [
             {
-                "
+                "type": "for-loop",
+                "value": {
+                    "elemVarName": "value",
+                    "arrayRefName": "list",
+                    "statementBlock": [
+                        {
+                            "type": "literal",
+                            "value": "execute ${value} test4[0] fill ${coords1} ${corrds2} air"
+                        }
+                    ]
+                }
             }
         ]
     }
