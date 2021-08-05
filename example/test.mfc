@@ -1,0 +1,61 @@
+# ---- DEFINE ENTITY EXAMPLE ---- #
+
+let test1: entity = @a[scores={someObjective=3}];
+
+execute ${test1} ~ ~ ~ fill 767 46 35 771 44 35 air
+
+# ---- DEFINE ENTITY ARRAY EXAMPLE ---- #
+
+let test2: entity[] = [
+    @a[scores={someObjective=3}],
+    @e[tag=TestTag,r=5]
+];
+
+execute ${test2[0]} ~ ~ ~ fill 767 46 35 771 44 35 air
+execute ${test2[1]} ~ ~ ~ fill 767 46 35 771 44 35 air
+
+# --------------------------------------------------------------- #
+# --------------------------------------------------------------- #
+
+# ---- DEFINE VEC3 EXAMPLE ---- #
+
+let test3: vec3 = vec3(~85, ^5, -34);
+
+setblock ${test3} minecraft:stone
+
+# ---- DEFINE VEC3 ARRAY EXAMPLE ---- #
+
+let test4: vec3[] = [
+    vec3(~85.3, ^-5.4, 0),
+    vec3(43, ~0.4, ^-2.6)
+];
+
+setblock ${test4[0]} minecraft:stone
+setblock ${test4[1]} minecraft:redstone_block
+
+# --------------------------------------------------------------- #
+# --------------------------------------------------------------- #
+
+# ---- FOR LOOP EXAMPLE ---- #
+
+let test5: vec3[] = [
+    vec3(~85.3, ^-5.4, 0),
+    vec3(43, ~0.4, ^-2.6)
+];
+
+for value in test5 {
+    setblock ${value} minecraft:obsidian
+}
+
+# --------------------------------------------------------------- #
+# --------------------------------------------------------------- #
+
+# ---- FUNCTION EXAMPLE ---- #
+
+fn test7(list: entity[], coords1: vec3, coords2: vec3) {
+    for value in list {
+        execute ${value} test4[0] fill ${coords1} ${coords2} air
+    }
+}
+
+${test7(test2, test5[0], test5[1])}

@@ -12,7 +12,7 @@ var (
 	AliasEntity Template = Template{
 		Name:    "Alias",
 		Type:    "entity",
-		Pattern: `#alias\sentity\s\w([\w0-9_\-]*)\s@[apse](\[([a-zA-Z]*=([a-zA-Z0-9]*|\{([a-zA-Z]*=[a-zA-Z0-9]*)\})),?\])?`,
+		Pattern: `#alias\sentity\s\w([\w0-9_\-]*)\s@[apse](\[(([a-zA-Z]\w*=(\w*|\{([a-zA-Z]\w*=\w*)\})),?)*\])?`,
 	}
 	AliasVector Template = Template{
 		Name:    "Alias",
