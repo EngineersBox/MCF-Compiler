@@ -17,6 +17,77 @@
 8. Create n-copies of the block statements and perform value replacements on them
 9. 
 
+## Statement Example Expansion
+```
+let test1: vec3[] = [
+    vec3(~85.3, ^-5.4, 0),
+    vec3(43, ~0.4, ^-2.6)
+];
+let test2: entity = @p[score={blocked=1}]
+execute ${test2} ~ ~ ~ setblock ${test1[0]} minecraft:obsidian
+```
+Creates parser objects:
+```
+{
+    "LUT": {
+        "test1": {
+            "element": "declaration",
+            "type": "vec3Array",
+            "value": {
+                "0": {
+                    "element": "arrayEntry",
+                    "type": "vec3",
+                    "value": {
+                        "x": "~85.3",
+                        "y": "^-5.4",
+                        "z": "0"
+                    }
+                },
+                "1": {
+                    "element": "arrayEntry",
+                    "type": "vec3",
+                    "value": {
+                        "x": "43",
+                        "y": "~0.4",
+                        "z": "^2.6"
+                    }
+                }
+            }
+        },
+        "test2": {
+            "element": "declaration",
+            "type": "entity",
+            "value": "@p[score={blocked=1}]"
+        }
+    },
+    "blocks": [
+        {
+            "element": "statement",
+            "type": "literal",
+            "value": "execute ${test2} ~ ~ ~ setblock ${test1[1]} minecraft:obsidian",
+            "templates": [
+                {
+                    "name": "test2",
+                    "type": "*",
+                    "attributes": null
+                },
+                {
+                    "name": "test1",
+                    "type": "array",
+                    "attributes": {
+                        "arrayIndex": 1
+                    }
+                }
+            ]
+        }
+    ]
+}
+```
+Which is then expanded to:
+```
+execute @p[score={blocked=1}] ~ ~ ~ setblock 43 ~0.4 ^-2.6 minecraft:obsidian
+```
+
 ## For Loop Example Expansion
 ```
 for <ELEM NAME> in <ARRAY REF> {
@@ -37,44 +108,68 @@ for value in test5 {
 Creates parser objects:
 ```
 {
-    "declaration": {
-        "type": "vec3Array",
-        "name": "test5",
-        "value": [
-            {
-                "type": "vec3",
-                "name": null,
-                "value": {
-                    "x": "~85.3",
-                    "y": "^-5.4",
-                    "z": "0"
-                }
-            },
-            {
-                "type": "vec3",
-                "name": null,
-                "value": {
-                    "x": "43",
-                    "y": "~0.4",
-                    "z": "^2.6"
+    "LUT": {
+        "test5": {
+            "element": "declaration",
+            "type": "vec3Array",
+            "value": {
+                "0": {
+                    "element": "arrayEntry",
+                    "type": "vec3",
+                    "value": {
+                        "x": "~85.3",
+                        "y": "^-5.4",
+                        "z": "0"
+                    }
+                },
+                "1": {
+                    "element": "arrayEntry",
+                    "type": "vec3",
+                    "value": {
+                        "x": "43",
+                        "y": "~0.4",
+                        "z": "^2.6"
+                    }
                 }
             }
-        ]
+        }
     },
-    "for-loop": {
-        "elemVarName": "value",
-        "arrayRefName": "test5",
-        "statementBlock": [
-            {
-                "type": "literal",
-                "value": "setblock ${value} minecraft:obsidian"
-            },
-            {
-                "type": "literal",
-                "value": "tp @p ${value}"
+    "blocks": [
+        {
+            "element": "for",
+            "type": null,
+            "value: {
+                "elemVarName": "value",
+                "arrayRefName": "test5",
+                "statements": [
+                    {
+                        "element": "statement",
+                        "type": "literal",
+                        "value": "setblock ${value} minecraft:obsidian",
+                        templates: [
+                            {
+                                "name": "value",
+                                "type": "*",
+                                "attributes": null
+                            }
+                        ]
+                    },
+                    {
+                        "element": "statement",
+                        "type": "literal",
+                        "value": "tp @p ${value}",
+                        templates: [
+                            {
+                                "name": "value",
+                                "type": "*",
+                                "attributes": null
+                            }
+                        ]
+                    }
+                ]
             }
-        ]
-    }
+        }
+    ]
 }
 ```
 Which is then exapanded to:
@@ -113,102 +208,167 @@ ${test7(test2, test5[0], test5[1])}
 Creates parser objects:
 ```
 {
-    "declaration": {
-        "type": "entityArray",
-        "name": "test2",
-        "value": [
-            {
-                "type": "entity",
-                "name": null,
-                "value": "@a[scores={someObjective=3}]"
-            },
-            {
-                "type": "entity",
-                "name": null,
-                "value": "@e[tag=TestTag,r=5]"
+    "LUT": {
+        "test2": {
+            "element": "declaration",
+            "type": "entityArray",
+            "value": {
+                "0": {
+                    "type": "entity",
+                    "name": null,
+                    "value": "@a[scores={someObjective=3}]"
+                },
+                "1": {
+                    "type": "entity",
+                    "name": null,
+                    "value": "@e[tag=TestTag,r=5]"
+                }
             }
-        ]
+        },
+        "test4": {
+            "element": "declaration",
+            "type": "vec3Array",
+            "value": [
+                "0": {
+                    "type": "vec3",
+                    "name": null,
+                    "value": {
+                        "x": "~0.23",
+                        "y": "^45.4",
+                        "z": "-25"
+                    }
+                },
+                "1": {
+                    "type": "vec3",
+                    "name": null,
+                    "value": {
+                        "x": "4.1",
+                        "y": "~-50.4",
+                        "z": "^8.23"
+                    }
+                }
+            ]
+        },
+        "test5": {
+            "element": "declaration",
+            "type": "vec3Array",
+            "value": [
+                "0": {
+                    "type": "vec3",
+                    "name": null,
+                    "value": {
+                        "x": "~85.3",
+                        "y": "^-5.4",
+                        "z": "0"
+                    }
+                },
+                "1": {
+                    "type": "vec3",
+                    "name": null,
+                    "value": {
+                        "x": "43",
+                        "y": "~0.4",
+                        "z": "^2.6"
+                    }
+                }
+            ]
+        }
     },
-    "declaration": {
-        "type": "vec3Array",
-        "name": "test4",
-        "value": [
-            {
-                "type": "vec3",
-                "name": null,
-                "value": {
-                    "x": "~0.23",
-                    "y": "^45.4",
-                    "z": "-25"
+    "blocks": [
+        "function": {
+            "element": "function",
+            "name": "test7",
+            "parameters: [
+                {
+                    "type": "entityArray",
+                    "name": "list"
+                },
+                {
+                    "type": "vec3",
+                    "name": "coords1"
+                },
+                {
+                    "type": "vec3",
+                    "name": "coords2"
                 }
-            },
-            {
-                "type": "vec3",
-                "name": null,
-                "value": {
-                    "x": "4.1",
-                    "y": "~-50.4",
-                    "z": "^8.23"
+            ],
+            "statements": [
+                {
+                    "element": "for",
+                    "type": null,
+                    "value": {
+                        "elemVarName": "value",
+                        "arrayRefName": "list",
+                        "statements": [
+                            {
+                                "element": "statement",
+                                "type": "literal",
+                                "value": "execute ${value} ${test4[0]} fill ${coords1} ${coords2} air",
+                                "templates": [
+                                    {
+                                        "name": "value",
+                                        "type": "*",
+                                        "attributes": null
+                                    },
+                                    {
+                                        "name": "test4",
+                                        "type": "array",
+                                        "attributes": {
+                                            "arrayIndex": 0
+                                        }
+                                    },
+                                    {
+                                        "name": "coords1",
+                                        "type": "*",
+                                        "attributes": null
+                                    },
+                                    {
+                                        "name": "coords2",
+                                        "type": "*",
+                                        "attributes": null
+                                    }
+                                ]
+                            }
+                        ]
+                    }
                 }
-            }
-        ]
-    },
-    "declaration": {
-        "type": "vec3Array",
-        "name": "test5",
-        "value": [
-            {
-                "type": "vec3",
-                "name": null,
-                "value": {
-                    "x": "~85.3",
-                    "y": "^-5.4",
-                    "z": "0"
+            ]
+        },
+        {
+            "element": "statement",
+            "type": "literal",
+            "value": "${test7(test2, test5[0], test5[1])}",
+            "templates": [
+                {
+                    "name": "test7",
+                    "type": "function",
+                    "attributes": {
+                        "parameters": [
+                            {
+                                "name": "test2",
+                                "type": "*",
+                                "attributes": null
+                            },
+                            {
+                                "name": "test5",
+                                "type": "array",
+                                "attributes": {
+                                    "arrayIndex": 0
+                                }
+                            },
+                            {
+                                "name": "test5",
+                                "type": "array",
+                                "attributes": {
+                                    "arrayIndex": 1
+                                }
+                            }
+                        ]
+                    }
                 }
-            },
-            {
-                "type": "vec3",
-                "name": null,
-                "value": {
-                    "x": "43",
-                    "y": "~0.4",
-                    "z": "^2.6"
-                }
-            }
-        ]
-    },
-    "function": {
-        "name": "test7",
-        "parameters: [
-            {
-                "type": "entityArray",
-                "name": "list"
-            },
-            {
-                "type": "vec3",
-                "name": "coords1"
-            },
-            {
-                "type": "vec3",
-                "name": "coords2"
-            }
-        ],
-        "statementBlock": [
-            {
-                "type": "for-loop",
-                "value": {
-                    "elemVarName": "value",
-                    "arrayRefName": "list",
-                    "statementBlock": [
-                        {
-                            "type": "literal",
-                            "value": "execute ${value} test4[0] fill ${coords1} ${corrds2} air"
-                        }
-                    ]
-                }
-            }
-        ]
-    }
+            ]
+        }
+    ]
 }
 ```
 Which is then expanded to
