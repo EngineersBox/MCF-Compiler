@@ -275,7 +275,7 @@ Creates parser objects:
         }
     },
     "blocks": [
-        "function": {
+        {
             "element": "function",
             "name": "test7",
             "parameters: [
