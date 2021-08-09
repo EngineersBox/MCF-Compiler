@@ -1,0 +1,20 @@
+name: MCF Compiler
+version: "1.0"
+author: EngineersBox (Jack Kilrain)
+about: Compiler for .mcf Minecraft function files into .mcfunction
+args:
+  - config:
+      short: c
+      long: config
+      value_name: FILE
+      help: Specifies a custom configuration file for the compiler
+      takes_value: true
+  - FILE:
+      help: Single .mcf or directory to compile files in
+      required: true
+      index: 1
+  - verbose:
+      short: c
+      long: verbose
+      multiple: true
+      help: Level of verbosity to log at
