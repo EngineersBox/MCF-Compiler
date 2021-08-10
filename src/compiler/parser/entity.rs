@@ -1,9 +1,9 @@
 pub enum EntitySelector {
-    NEAREST_PLAYER,
-    RANDOM_PLAYER,
-    ALL_PLAYERS,
-    ALL_ENTITIES,
-    SEL_ENTITY,
+    NearestPlayer,
+    RandomPlayer,
+    AllPlayers,
+    AllEntities,
+    SelfEntity,
 }
 
 #[derive(Debug, Clone, Eq, PartialEq)]

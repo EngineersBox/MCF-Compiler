@@ -80,7 +80,6 @@ pub struct Assignment<'a> {
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum Args<'a> {
-    Str(StringLit<'a>),
     Array(ArrayLiteral<'a>),
     ExpList(Vec<Exp<'a>>),
 }
