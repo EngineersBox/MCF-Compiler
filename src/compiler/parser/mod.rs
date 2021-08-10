@@ -3,5 +3,5 @@ pub mod varname;
 #[macro_use]
 pub mod chars;
 pub mod comment;
-pub mod string;
-pub mod numeral;
+pub mod vec3;
+pub mod entity;
