@@ -58,19 +58,19 @@ named!(foriter<ForIter>, eat_mcf_sep!(
         vars: namelist >>
         mcf_tag!("in") >>
         exps: explist >>
-        mcf_tag!("do") >>
+        mcf_tag!("{") >>
         do_blk: block >>
-        mcf_tag!("end") >>
+        mcf_tag!("}") >>
         (ForIter { vars, exps, do_blk })
     )
 ));
 
 named!(functiondef<FunctionDef>, eat_mcf_sep!(
     do_parse!(
-        mcf_tag!("function") >>
+        mcf_tag!("fn") >>
         name: funcname >>
         body: functionbody >>
-        mcf_tag!("end") >>
+        mcf_tag!("}") >>
         (FunctionDef { name, body })
     )
 ));
@@ -94,9 +94,10 @@ named!(opt_explist<Vec<Exp>>,
 
 named!(functionbody<FunctionBody>, eat_mcf_sep!(
     do_parse!(
-       params: delimited!(mcf_tag!("("), parlist, mcf_tag!(")")) >>
-       body: block >>
-       (FunctionBody { params, body })
+        params: delimited!(mcf_tag!("("), parlist, mcf_tag!(")")) >>
+        mcf_tag!("{") >>
+        body: block >>
+        (FunctionBody { params, body })
     )
 ));
 
