@@ -1,3 +1,4 @@
+#[derive(Debug, Clone, Eq, PartialEq)]
 pub enum EntitySelector {
     NearestPlayer,
     RandomPlayer,
@@ -7,15 +8,9 @@ pub enum EntitySelector {
 }
 
 #[derive(Debug, Clone, Eq, PartialEq)]
-pub struct EntityAttributeValue<'a> {
-    pub literal: &'a str,
-    pub nested: Option<EntityAttributeValue<'a>>,
-}
-
-#[derive(Debug, Clone, Eq, PartialEq)]
 pub struct EntityAttribute<'a> {
     pub key: &'a str,
-    pub value: EntityAttributeValue<'a>,
+    pub value: &'a str,
 }
 
 #[derive(Debug, Clone, Eq, PartialEq)]

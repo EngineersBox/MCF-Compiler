@@ -11,7 +11,6 @@ use regex::Regex;
 use lazy_static::lazy_static;
 
 use crate::get_current_thread_id;
-use chrono::Local;
 
 lazy_static! {
     static ref MODULE_SEPARATOR_REGEX: Regex = Regex::new(r"::").expect("Could not compile module separator regex");

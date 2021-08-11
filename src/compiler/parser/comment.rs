@@ -1,6 +1,3 @@
-use nom::IResult;
-use nom::sequence::terminated;
-
 named!(pub comment,
     recognize!(
         terminated!(

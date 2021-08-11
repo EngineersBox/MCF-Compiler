@@ -3,5 +3,5 @@ pub mod varname;
 #[macro_use]
 pub mod chars;
 pub mod comment;
-pub mod vec3;
+pub mod vec_pos;
 pub mod entity;

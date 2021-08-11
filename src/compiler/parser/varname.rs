@@ -3,6 +3,7 @@ use std::fmt;
 use crate::compiler::parser::chars::{alpha_or_underscore, is_alphanum_or_underscore};
 use nom::{self, IResult};
 
+
 #[derive(Copy, Clone, Eq, PartialEq)]
 pub struct VarName<'a>(pub &'a [u8]);
 
@@ -32,7 +33,7 @@ fn varname_(buf: &[u8]) -> IResult<&[u8], VarName> {
         }
     }
 
-    name_res.map(|n| VarName(n))
+    name_res.map(|n| (n.0, VarName(n.1)))
 }
 
 named!(pub varname<VarName>, eat_mcf_sep!(call!(varname_)));

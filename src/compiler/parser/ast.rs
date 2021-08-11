@@ -1,6 +1,6 @@
 use crate::compiler::parser::varname::VarName;
 use crate::compiler::parser::entity::EntityLit;
-use crate::compiler::parser::vec3::Vec3Lit;
+use crate::compiler::parser::vec_pos::VecPosLit;
 
 pub type ArrayLiteral<'a> = Vec<Field<'a>>;
 
@@ -16,7 +16,7 @@ pub enum Statement<'a> {
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum Exp<'a> {
-    Vec3(Vec3Lit<'a>),
+    VecPos(VecPosLit<'a>),
     Entity(EntityLit<'a>),
     Array(ArrayLiteral<'a>),
     FuncCall(FunctionCall<'a>),
