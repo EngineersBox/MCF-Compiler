@@ -1,4 +1,5 @@
 use nom::character::complete::digit1;
+use std::str;
 
 #[derive(Debug, Clone, Eq, PartialEq)]
 pub enum VecPosPrefix {
@@ -13,14 +14,16 @@ pub enum VecPosSign {
 }
 
 #[derive(Debug, Clone, Eq, PartialEq)]
-pub struct VecPosLit<'a> {
+pub struct VecPosLit {
     pub prefix: Option<VecPosPrefix>,
     pub sign: Option<VecPosSign>,
-    pub value: &'a str,
+    pub value: String,
 }
 
-impl<'a> VecPosLit<'a> {
+impl VecPosLit {
     fn from_lit(seperated_tuple: (Option<&[u8]>, Option<&[u8]>, &[u8], Option<&[u8]>)) -> Self {
+        let mut number_lit: Vec<u8> = seperated_tuple.2.to_vec();
+        number_lit.extend_from_slice(seperated_tuple.3.unwrap_or(&[]));
         Self {
             prefix: seperated_tuple.0.map(|p: &[u8]| {
                 if p[0] == b'~' {
@@ -36,10 +39,7 @@ impl<'a> VecPosLit<'a> {
                     VecPosSign::Neg
                 }
             }),
-            value: (
-                String::from_utf8_lossy(seperated_tuple.2)
-                    + String::from_utf8_lossy(seperated_tuple.3.unwrap_or(&[]))
-            ).to_string().as_str()
+            value: (String::from_utf8_lossy(seperated_tuple.2.clone()) + String::from_utf8_lossy(seperated_tuple.3.clone().unwrap_or(&[]))).to_string()
         }
     }
 }

@@ -14,7 +14,7 @@ args:
       required: true
       index: 1
   - verbose:
-      short: c
+      short: v
       long: verbose
       multiple: true
       help: Level of verbosity to log at

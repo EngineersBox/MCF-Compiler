@@ -1,5 +1,6 @@
-use nom::character::{is_alphanumeric,is_alphabetic};
+use nom::character::is_alphanumeric;
 use super::comment::comment;
+use nom::character::complete::alpha1;
 
 pub fn is_alphanum_or_underscore(c: u8) -> bool {
     is_alphanumeric(c) || c == b'_'
@@ -33,6 +34,7 @@ macro_rules! mcf_tag {
 }
 
 // Eats a preceding separator, i.e., whitespace and/or a comment till the end of the line
+#[macro_export]
 macro_rules! eat_mcf_sep {
     ($i:expr, $submac:ident!( $($args:tt)* )) => ({
         use super::chars::mcf_sep;
@@ -50,10 +52,12 @@ pub fn is_ws(c: u8) -> bool {
     }
 }
 
-named!(pub alpha_or_underscore, many1!(
-    alt!(
-        is_alphabetic |
-        tag!("_")
+named!(pub alpha_or_underscore, recognize!(
+    many1!(
+        alt!(
+            alpha1 |
+            tag!("_")
+        )
     )
 ));
 

@@ -16,7 +16,7 @@ pub enum Statement<'a> {
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum Exp<'a> {
-    VecPos(VecPosLit<'a>),
+    VecPos(VecPosLit),
     Entity(EntityLit<'a>),
     Array(ArrayLiteral<'a>),
     FuncCall(FunctionCall<'a>),
