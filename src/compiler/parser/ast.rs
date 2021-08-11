@@ -7,7 +7,7 @@ pub type ArrayLiteral<'a> = Vec<Field<'a>>;
 #[derive(Debug,Clone,PartialEq)]
 pub enum Statement<'a> {
     Semicolon,
-    Newline,
+    Template(PrefixExp<'a>),
     Assignment(Assignment<'a>),
     FuncCall(PrefixExp<'a>),
     ForIter(ForIter<'a>),
@@ -45,7 +45,6 @@ pub struct FunctionBody<'a> {
 #[derive(Clone, Debug, PartialEq)]
 pub struct Block<'a> {
     pub stmts: Vec<Statement<'a>>,
-    pub ret_stmt: Option<Vec<Exp<'a>>>
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -74,8 +73,8 @@ pub enum ExpSuffix<'a> {
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Assignment<'a> {
-    pub vars: Vec<PrefixExp<'a>>,
-    pub vals: Vec<Exp<'a>>,
+    pub var: PrefixExp<'a>,
+    pub val: Exp<'a>,
 }
 
 #[derive(Clone, Debug, PartialEq)]

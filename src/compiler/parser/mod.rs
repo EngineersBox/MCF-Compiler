@@ -5,3 +5,5 @@ pub mod chars;
 pub mod comment;
 pub mod vec_pos;
 pub mod entity;
+pub mod ast_parser;
+pub mod template;
